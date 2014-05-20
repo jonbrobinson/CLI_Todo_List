@@ -28,10 +28,10 @@ function sort_menu($items){
 
     switch($input){
         case 'A':
-            sort($items);
+            asort($items);
             break;
         case 'Z':
-            rsort($items);
+            arsort($items);
             break;
         case 'O':
             ksort($items);
@@ -61,7 +61,15 @@ do {
         // Ask for entry
         echo 'Enter item: ';
         // Add entry to list array
-        $items[] = get_input();
+        $temp = get_input();
+        //Ask if to Add item to the beginq or end of ToDo_List
+        echo 'Add to (B)eginning or (E)nd: ';
+        $input = get_input(TRUE);
+            if ($input == 'B'){
+                array_unshift($items, $temp);
+            } elseif ($input == 'E'){
+                array_push($items, $temp);
+            }
     } elseif ($input == 'R') {
         // Remove which item?
         echo 'Enter item number to remove: ';
@@ -71,6 +79,10 @@ do {
         unset($items[$key - 1]);
     } elseif ($input == 'S'){
         $items = sort_menu($items);
+    } elseif ($input == 'F'){
+        array_shift($items);
+    } elseif ($input == 'L'){
+        array_pop($items);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
