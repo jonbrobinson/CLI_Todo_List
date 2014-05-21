@@ -21,6 +21,16 @@ function get_input($upper = false){
     return $upper ? strtoupper($result) : $result;
 }
 
+function call_file(){
+     echo 'Please enter file location/Name: ';
+     $filename = get_input();
+     $handle = fopen($filename, 'r');
+     $contents = fread($handle, filesize($filename));
+     $contents_array = explode("\n", $contents);
+     return $contents_array;
+     fclose($handle);
+}
+
 function sort_menu($items){
 
     echo '(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: ';
@@ -50,7 +60,7 @@ do {
     echo list_items($items);
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort items, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort items, (O)pen file, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
@@ -83,7 +93,12 @@ do {
         array_shift($items);
     } elseif ($input == 'L'){
         array_pop($items);
+    } elseif ($input == 'O'){
+
+        $contents_array = call_file();
+        $items = array_merge($items, $contents_array);
     }
+
 // Exit when input is (Q)uit
 } while ($input != 'Q');
 
